@@ -1,16 +1,14 @@
-================================================================================
-===Nmap====
+### NMAP
 nmap -p- -sT -sV -A $IP
 nmap -p- -sC -sV $IP --open
 nmap -p- --script=vuln $IP
-###HTTP-Methods
+### HTTP-Methods
 nmap --script http-methods --script-args http-methods.url-path='/website' 
 ###  --script smb-enum-shares
 sed IPs:
 grep -oE '((1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])\.){3}(1?[0-9][0-9]?|2[0-4][0-9]|25[0-5])' FILE
 
-================================================================================
-===WPScan & SSL
+### WPScan & SSL
 wpscan --url $URL --disable-tls-checks --enumerate p --enumerate t --enumerate u
 
 ===WPScan Brute Forceing:
@@ -19,14 +17,15 @@ wpscan --url $URL --disable-tls-checks -U users -P /usr/share/wordlists/rockyou.
 ===Aggressive Plugin Detection:
 wpscan --url $URL --enumerate p --plugins-detection aggressive
 ================================================================================
-===Nikto with SSL and Evasion
+
+### Nikto with SSL and Evasion
 nikto --host $IP -ssl -evasion 1
 SEE EVASION MODALITIES.
 ================================================================================
-===dns_recon
+### dns_recon
 dnsrecon –d yourdomain.com
 ================================================================================
-===gobuster directory
+### gobuster directory
 gobuster dir -u $URL -w /opt/SecLists/Discovery/Web-Content/raft-medium-directories.txt -k -t 30
 
 ===gobuster files
@@ -36,10 +35,10 @@ gobuster dir -u $URL -w /opt/SecLists/Discovery/Web-Content/raft-medium-files.tx
 gobuster dns -d domain.org -w /opt/SecLists/Discovery/DNS/subdomains-top1million-110000.txt -t 30
 "just make sure any DNS name you find resolves to an in-scope address before you test it"
 ================================================================================
-===Extract IPs from a text file.
+### Extract IPs from a text file.
 grep -o '[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}' nmapfile.txt
 ================================================================================
-===Wfuzz XSS Fuzzing============================================================
+### Wfuzz XSS Fuzzing============================================================
 wfuzz -c -z file,/opt/SecLists/Fuzzing/XSS/XSS-BruteLogic.txt "$URL"
 wfuzz -c -z file,/opt/SecLists/Fuzzing/XSS/XSS-Jhaddix.txt "$URL"
 
@@ -72,25 +71,25 @@ wfuzz -c -z file,/opt/SecLists/Usernames/top-usernames-shortlist.txt --hc 404,40
 ===Command Injection with commix, ssl, waf, random agent.
 commix --url="https://supermegaleetultradomain.com?parameter=" --level=3 --force-ssl --skip-waf --random-agent
 ================================================================================
-===SQLMap
+### SQLMap
 sqlmap -u $URL --threads=2 --time-sec=10 --level=2 --risk=2 --technique=T --force-ssl
 sqlmap -u $URL --threads=2 --time-sec=10 --level=4 --risk=3 --dump
 /SecLists/Fuzzing/alphanum-case.txt
 ================================================================================
-===Social Recon
+### Social Recon
 theharvester -d domain.org -l 500 -b google
 ================================================================================
-===Nmap HTTP-methods
+### Nmap HTTP-methods
 nmap -p80,443 --script=http-methods  --script-args http-methods.url-path='/directory/goes/here'
 ================================================================================
-===SMTP USER ENUM
+### SMTP USER ENUM
 smtp-user-enum -M VRFY -U /opt/SecLists/Usernames/xato-net-10-million-usernames.txt -t $IP
 smtp-user-enum -M EXPN -U /opt/SecLists/Usernames/xato-net-10-million-usernames.txt -t $IP
 smtp-user-enum -M RCPT -U /opt/SecLists/Usernames/xato-net-10-million-usernames.txt -t $IP
 smtp-user-enum -M EXPN -U /opt/SecLists/Usernames/xato-net-10-million-usernames.txt -t $IP
 ================================================================================
 
-===Command Execution Verification - [Ping check]
+### Command Execution Verification - [Ping check]
 tcpdump -i any -c5 icmp
 ====
 #Check Network
